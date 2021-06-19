@@ -1,0 +1,516 @@
+/*#####################################################################################
+  NAME: AWT - Archer Workflow Tracker Styles
+  AUTHOR: Luciano Veronese
+  DATE: July 2020
+  VERSION: 1.4
+  DESCRIPTION: CSS styles for the AWT custom object
+  NOTES: - To design a color schema, take a look at this http: //paletton.com
+  #####################################################################################*/
+  
+/*---------------------------------------------------------*/
+/* Main CSS variable to customize the look and feel of AWT */
+/*---------------------------------------------------------*/
+
+/* DEFAULT VARIABLES (APPLIED WHEN THE THEME VARIABLE IS NOT DEFINED */
+:root {
+  /* 5% left/right blank gap for the container */
+  --HorizontalRelativeWidth: 70vw;
+  --VerticalMargin: 1rem;
+  --StateLabelFontSize: 1.1rem;
+  --SubstateLabelFontSize: 1rem;
+  --StateLabelContainerHeight: 3rem;
+  --StateLabelContainerWidth: 12rem;
+  --StateNodeSize: 2rem;
+  --StateNodeBorderWidth: 0.02rem;
+  --StateNodeBorderRadius: 50%;
+  --StateIconSize: 1.2rem;
+  --StateTextIconSize: 1.5rem;
+  --HasChildrenBarThikness: .4rem;
+  --ConnectionHeight: .2rem;
+  --ConnectionBorderWidth: .01rem;
+  --ConnectionBarGap: 0rem;  
+  --HasChildrenBarThikness: .4rem;
+  --ConnectionHeight: .2rem;
+  --ConnectionBorderWidth: .02rem;
+
+  --ToolTipWidth: 10rem;
+  --ToolTipFontSize: 1rem;
+  --ToolTipActionWidth: 14rem;
+  --ToolTipActionFontSize: 0.7rem;
+
+  --ConnectionAnimationEnable: yes;
+  --ConnectionAnimationDelay: 50ms;
+
+  /* Default colors (no theme defined): this is an "RGB" theme... */
+  --StatePastColor: #748E54;
+  --ConnectionPastColor: #748E54;
+  --StateCurrentColor: #BE3A34;
+  --StateFutureColor: #3D5467;
+  --ConnectionFutureColor: #3D5467;
+  --StateIconColor: white;
+  --StateNodeBorderColor: rgba(0, 0, 0, 0.5);
+  --ConnectionBorderColor: rgba(0, 0, 0, 0.5);
+
+  /* The PastIcon is a string with no quotes */
+  /* If it is assigned the value null , the icon of the Past state does not change */
+  /* oyherwise the text is interpreted as a material design icon that will replace */
+  /* the icons associated to the Past states, e.g. a checkmark  */
+  --PastIcon: done_outline;
+}
+
+/* ---------------------------------------------------------------------
+PRE DEFINED THEMES: remove the '.off' suffix to enable the theme
+Only one theme can be active anytime.
+If a variable is not added to a theme, the corresponding default is used
+You can copy any default variable into any theme (and change it)
+*/
+
+/* B&W Theme */
+.awtTheme.off {
+  --StateNodeBorderColor: rgba(0, 0, 0, 0.5);
+  --StateCurrentColor: #CCC;
+  --StatePastColor: #CCC;
+  --StateFutureColor: #CCC;
+  --StateIconColor: rgba(33, 33, 33, 0.9);
+  --StateLabelColor: black;
+  --SubStateLabelColor: black;
+  --ConnectionPastColor: #CCC;
+  --ConnectionFutureColor: #CCC;
+}
+
+/* GOLD Color Theme */
+.awtTheme.off {
+  --StateLabelColor: #A66F00;
+  --SubStateLabelColor: #A66F00;
+  --StateNodeBorderColor: rgba(0, 0, 0, 0.5);
+  --StateCurrentColor: #B05252;
+  --StatePastColor: #428D42;
+  --StateFutureColor: #B0A052;
+  --StateIconColor: rgba(255, 255, 255, 0.9);
+  --ConnectionBorderColor: rgba(0, 0, 0, 1);
+  --ConnectionPastColor: #428D42;
+  --ConnectionFutureColor: #B0A052;
+}
+
+/* FUNKY Color Theme */
+.awtTheme.off {
+  --StateLabelColor: #333;
+  --SubStateLabelColor: #333;
+  --StateNodeBorderColor: rgba(0, 0, 0, 0.5);
+  --StateCurrentColor: #760015;
+  --StatePastColor: #8BB900;
+  --StateFutureColor: #185F4D;
+  --StateIconColor: rgba(190, 190, 190, 0.9);
+  --ConnectionBorderColor: rgba(0, 0, 0, 1);
+  --ConnectionPastColor: #8BB900;
+  --ConnectionFutureColor: #185F4D;
+  --StateNodeBorderWidth: 0.2rem;
+  --StateNodeBorderRadius: 50% 0 50% 0;
+  --ConnectionHeight: .4rem;
+  --ConnectionBorderWidth: .01rem;
+}
+
+
+/* SQUARED Color Theme */
+.awtTheme.off {
+  --StateLabelColor: #333;
+  --SubStateLabelColor: #333;
+  --StateNodeBorderColor: rgba(0, 0, 0, 0.5);
+  --StateIconColor: rgba(250, 250, 250, 0.9);
+  --ConnectionBorderColor: rgba(0, 0, 0, 1);
+  --StateNodeBorderWidth: 0.2rem 0.4rem 0.5rem 0.2rem;
+  --StateNodeBorderRadius: 8px;
+  --ConnectionHeight: .99rem;
+  --ConnectionBorderWidth: .14rem 0 .3rem 0;
+}
+
+/*
+-----------------------------------------------
+END OF USER CUSTOMIZABLE SECTION 
+You can tewak the CSS properties below, but you
+need to know what you're doing!
+-----------------------------------------------
+*/
+
+/* Calculated properties: do not touch! */
+:root {
+  --ConnectionPosition: calc((var(--StateLabelContainerHeight)) + (var(--StateNodeSize)/2) - var(--ConnectionHeight)/2);
+  --ConnectionExtensionGap: calc((var(--StateNodeSize) - var(--StateLabelContainerWidth))/2 + var(--ConnectionBarGap));
+  --SubstateWidth: calc(--StateLabelContainerWidth);
+}
+
+
+/* Adapt the base font size on the viewport width (can be extended) */
+@media screen and (max-width: 1920px) {
+  :root {
+    font-size: .8em !important;
+    ;
+  }
+}
+
+/* On screens that are 600px wide or less, the background color is olive */
+@media screen and (max-width: 1280px) {
+  :root {
+    font-size: .6em !important;
+    ;
+  }
+}
+
+.awtContainer {
+  width: var(--HorizontalRelativeWidth);
+  height: 100%;
+  margin: var(--VerticalMargin) auto var(--VerticalMargin) auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.awtPhase {
+  display: flex;
+  flex-direction: row;
+  place-items: flex-start;
+  margin: 0rem;
+  padding: 0rem;
+  width: auto;
+}
+
+.awtBeforeLast {
+  flex: 1 1 auto;
+}
+
+.awtState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgb(49, 49, 49);
+}
+
+.awtState[Status='P'] {
+  color: var(--StatePastColor);
+}
+
+.awtState[Status='C'] {
+  color: var(--StateCurrentColor);
+}
+
+.awtState[Status='F'] {
+  color: var(--StateFutureColor);
+}
+
+.awtNode {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  border: solid;
+  border-width: var(--StateNodeBorderWidth);
+  border-color: var(--StateNodeBorderColor);
+  border-radius: var(--StateNodeBorderRadius);
+  min-width: var(--StateNodeSize);
+  min-height: var(--StateNodeSize);
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.awtNode i {
+  font-size: var(--StateIconSize);
+  font-weight: 900;
+  color: var(--StateIconColor);
+  z-index: 0;
+}
+
+.awtNode i.TextIcon {
+  font-size: var(--StateTextIconSize);
+}
+
+.awtHasChildrenBar {
+  margin-top: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.awtChildrenBar {
+  width: 2rem;
+  border-top: solid;
+  margin-bottom: .1rem;
+  border-width: var(--HasChildrenBarThikness);
+  border-color: black;
+  margin-top: 0;
+  margin-bottom: 0.3rem;
+}
+
+.awtHasChildrenBar:hover~.awtSubstate {
+  opacity: 1;
+  border-top: none;
+  min-height: 1.5rem;
+  transition: all .3s ease-out;
+  border-left: solid;
+  border-left-width: .15rem;
+  padding-left: 0.3rem;
+}
+
+.awtSubstate:hover {
+  opacity: 1 !important;
+}
+
+.awtState[Status='F'] .awtNode {
+  background-color: var(--StateFutureColor);
+}
+
+.awtState[Status='P'] .awtNode {
+  background-color: var(--StatePastColor);
+}
+
+.awtState[Status='C'] .awtNode {
+  background-color: var(--StateCurrentColor);
+}
+
+.awtStateLabelContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0rem;
+  min-height: var(--StateLabelContainerHeight);
+  max-height: var(--StateLabelContainerHeight);
+  min-width: var(--StateLabelContainerWidth);
+  max-width: var(--StateLabelContainerWidth);
+  justify-content: flex-end;
+}
+
+.awtStateLabel {
+  font-size: var(--StateLabelFontSize);
+  color: var(--StateLabelColor);
+  text-align: center;
+  padding-bottom: 0.3rem;
+}
+
+.awtStateChildren {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 0.5rem;
+}
+
+.awtSubstate {
+  display: inline-flex;
+  margin: 0;
+  min-width: var(--SubstateWidth);
+  max-width: var(--SubstateWidth);
+  align-items: center;
+  justify-content: center;
+}
+
+.awtSubstate[Status='P'] {
+  font-size: var(--SubstateLabelFontSize);
+  opacity: 0;
+  z-index: 400;
+}
+
+.awtSubstate[Status='F'] {
+  font-size: var(--SubstateLabelFontSize);
+  opacity: 0;
+  z-index: 400;
+}
+
+.awtSubstateLabel {
+  color: var(--SubStateLabelColor);
+}
+
+/* Style only the current active sub state */
+.awtSubstate[Status='C'] .awtSubstateLabel {
+  font-size: var(--SubstateLabelFontSize);
+  background-color: #EEE;
+  border: solid;
+  border-color: rgb(119, 167, 210);
+  border-width: 1px;
+  border-radius: 7px;
+  padding: 0 0.2em 0 0.2rem;
+  z-index: 400;
+}
+
+.awtConnection {
+  display: flex;
+  visibility: inherited;
+  flex-direction: row;
+  margin-top: var(--ConnectionPosition);
+  margin-left: var(--ConnectionExtensionGap);
+  margin-right: var(--ConnectionExtensionGap);
+  min-height: var(--ConnectionHeight);
+  width: 100%;
+}
+
+.awtConnectionBar {
+  box-sizing: border-box;
+  border-top: solid;
+  border-bottom: solid;
+  border-top-color: var(--ConnectionBorderColor);
+  border-bottom-color: var(--ConnectionBorderColor);
+  border-width: var(--ConnectionBorderWidth);
+  width: 100%;
+}
+
+.awtConnectionBar[Status='P'] {
+  background-color: var(--ConnectionPastColor);
+}
+
+.awtConnectionBar[Status='F'] {
+  background-color: var(--ConnectionFutureColor);
+}
+
+.awtConnectionBarAnimation {
+  transition: var(--ConnectionAnimationDelay) all ease-in-out;
+  animation: progress var(--ConnectionAnimationDelay) forwards;
+  -webkit-animation: progress var(--ConnectionAnimationDelay) forwards;
+}
+
+@keyframes progress {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@-webkit-keyframes progress {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+/*-----------------*/
+/* Tooltip styling */
+/*-----------------*/
+.qtip {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-style: normal;
+  transition: all .85s ease-in-out;
+}
+
+.qtip:before {
+  content: attr(data-tip);
+  font-size: var(--ToolTipFontSize);
+  position: absolute;
+  background: rgba(240, 240, 240, 0.9);
+  color: black;
+  line-height: 1.2rem;
+  padding: 0.4rem;
+  font-style: normal;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s ease-in-out;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  font-family: sans-serif;
+  letter-spacing: 0.1rem;
+  font-weight: 400;
+}
+
+.qtip:after {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  content: '';
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.qtip:hover:before,
+.qtip:hover:after {
+  visibility: visible;
+  opacity: 1
+}
+
+.qtip.tip-top:before {
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, calc(-100% - 8px));
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: solid;
+  border-width: 0.05rem;
+  border-color: gray;
+  width: var(--ToolTipWidth);
+}
+
+i.qtip.tip-top:before {
+  z-index: 500;
+}
+
+.qtip.tip-top:after {
+  border-width: 8px 8px 0 8px;
+  border-color: rgba(200, 0, 0, 0.9) transparent transparent transparent;
+  top: -8px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+/*------------------------*/
+/* Action Tooltip styling */
+/*------------------------*/
+.qtipaction {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-style: normal;
+}
+
+.qtipaction:before {
+  content: attr(data-tip);
+  font-size: var(--ToolTipActionFontSize);
+  position: absolute;
+  background: rgba(200, 200, 200, 1);
+  color: DarkRed;
+  line-height: 1rem;
+  padding: 0.4rem;
+  font-style: normal;
+  box-shadow: 0 1px 3px rgba(200, 0, 0, 0.7);
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  font-family: sans-serif;
+  letter-spacing: 0.05rem;
+  font-weight: 400;
+  transition: all 0.3s ease-in-out;
+  transform: scale(0.1);
+}
+
+.qtipaction:hover:before,
+.qtipaction:hover:after {
+  visibility: visible;
+  opacity: 1;
+  transform: scale(2) translate(-15%, 20%);
+}
+
+.qtipaction.tip-top:before {
+  top: 0;
+  left: 0;
+  width: var(--ToolTipActionWidth);
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: solid;
+  border-width: 0.1rem;
+}
+
+i.qtipaction.tip-top:before {
+  z-index: 500;
+}
+
+.qtipaction.tip-top:after {
+  border-width: 1rem;
+  border-color: rgba(200, 200, 200, 0.9) transparent transparent transparent;
+}
